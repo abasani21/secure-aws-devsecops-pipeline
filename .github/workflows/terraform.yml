@@ -38,3 +38,4 @@ jobs:
         with:
           directory: terraform
           framework: terraform
+          skip_path: terraform/insecure_examples
