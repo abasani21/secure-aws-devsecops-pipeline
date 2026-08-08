@@ -72,3 +72,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "security_logs" {
     }
   }
 }
+
+resource "aws_s3_bucket" "access_logs" {
+  bucket = "akhil-devsecops-access-logs-2026"
+}
+
+resource "aws_s3_bucket_logging" "security_logs" {
+  bucket        = aws_s3_bucket.security_logs.id
+  target_bucket = aws_s3_bucket.access_logs.id
+  target_prefix = "log/"
+}
