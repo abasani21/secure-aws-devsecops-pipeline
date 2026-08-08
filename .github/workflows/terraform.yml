@@ -8,6 +8,10 @@ on:
   pull_request:
     branches:
       - main
+      
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   terraform:
@@ -23,6 +27,15 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::626635446478:role/GitHubActionsTerraformRole
+          aws-region: us-east-1
+
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
 
       - name: Terraform Init
         run: terraform init
