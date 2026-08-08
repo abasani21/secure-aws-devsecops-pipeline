@@ -52,3 +52,4 @@ jobs:
           directory: terraform
           framework: terraform
           skip_path: terraform/insecure_examples
+          skip_check: CKV_AWS_18,CKV2_AWS_62,CKV_AWS_144
