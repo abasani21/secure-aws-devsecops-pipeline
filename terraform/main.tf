@@ -43,3 +43,32 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "security_logs" {
     }
   }
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "security_logs" {
+  bucket = aws_s3_bucket.security_logs.id
+
+  rule {
+    id     = "security-log-retention"
+    status = "Enabled"
+
+    filter {}
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = 90
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+}
